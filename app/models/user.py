@@ -7,3 +7,6 @@ class User(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     telegram_id: Mapped[int] = mapped_column(nullable=False)
+    age: Mapped[int] = mapped_column(nullable=True)
+    country: Mapped[str] = mapped_column(nullable=True)
+    city: Mapped[str] = mapped_column(nullable=True)
