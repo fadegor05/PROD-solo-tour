@@ -1,15 +1,7 @@
 # Travel agent 3.0
 
-## Запуск
+### Запуск
 
-#### Разработка
-
-Установка зависимостей
 ```
-poetry update
-```
-
-Запуск приложения
-```
-poetry run python run.py
+docker-compose up -d
 ```

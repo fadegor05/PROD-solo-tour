@@ -11,6 +11,7 @@ python = "^3.12"
 aiogram = "^3.4.1"
 sqlalchemy = "^2.0.28"
 aiosqlite = "^0.20.0"
+asyncpg = "^0.29.0"
 
 
 [build-system]
