@@ -4,6 +4,7 @@ from aiogram import F
 from aiogram.fsm.context import FSMContext
 import geocoder
 
+from app.handlers.keyboards import HOME_KEYBOARD
 from app.fsm.user import CreateUser
 from app.messages import messages
 from app.database import async_session
@@ -59,5 +60,5 @@ async def add_city_user_start_handler(message: Message, state: FSMContext):
     data = await state.get_data()
     async with async_session() as session:
         await update_user_detailed_by_telegram_id(session, message.from_user.id, data['age'], data['city'], data['country'], data['bio'])
-    await message.answer(messages['successful_input'], parse_mode='Markdown')
+    await message.answer(messages['home'], parse_mode='Markdown', reply_markup=HOME_KEYBOARD)
     await state.clear()
