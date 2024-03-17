@@ -16,7 +16,7 @@ async def start_handler(message: Message, state: FSMContext):
     async with async_session() as session:
         user = await get_user_by_telegram_id(session, message.from_user.id)
         if not user:
-            user = await create_user(session, message.from_user.id)
+            user = await create_user(session, message.from_user.id, message.from_user.first_name)
         await message.answer(f'{messages['start']}\n\n{messages['age_input']}', parse_mode='Markdown')
         await state.set_state(CreateUser.age)
 

@@ -12,7 +12,7 @@ class Location(Base):
     __tablename__ = 'location'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    travel: Mapped['Travel'] = relationship(back_populates='locations')
+    travel: Mapped['Travel'] = relationship(back_populates='locations', lazy='selectin')
     travel_id: Mapped[int] = mapped_column(ForeignKey('travel.id'))
     city: Mapped[str] = mapped_column(nullable=True)
     country: Mapped[str] = mapped_column(nullable=True)

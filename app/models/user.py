@@ -12,9 +12,9 @@ class User(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     telegram_id: Mapped[int] = mapped_column(nullable=False)
+    name: Mapped[str] = mapped_column(nullable=False)
     age: Mapped[int] = mapped_column(nullable=True)
     country: Mapped[str] = mapped_column(nullable=True)
     city: Mapped[str] = mapped_column(nullable=True)
     bio: Mapped[str] = mapped_column(nullable=True)
-    travels: Mapped[List['Member']] = relationship(back_populates='user')
-    travels_owner: Mapped[List['Travel']] = relationship(back_populates='owner')
+    travels: Mapped[List['Member']] = relationship(back_populates='user', lazy='selectin')

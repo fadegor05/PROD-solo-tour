@@ -1,6 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from app.database import async_session
 from app.models.user import User
 
 async def get_user_by_id(session: AsyncSession, id: int) -> User | None:
@@ -13,8 +12,8 @@ async def get_user_by_telegram_id(session: AsyncSession, telegram_id: int) -> Us
     user = await session.scalar(stmt)
     return user
 
-async def create_user(session: AsyncSession, telegram_id: int) -> User:
-    user = User(telegram_id=telegram_id)
+async def create_user(session: AsyncSession, telegram_id: int, name: str) -> User:
+    user = User(telegram_id=telegram_id, name=name)
     session.add(user)
     await session.commit()
     await session.refresh(user)
