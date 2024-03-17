@@ -5,6 +5,7 @@ from app.database import Base
 
 if TYPE_CHECKING:
     from .member import Member
+    from .travel import Travel
 
 class User(Base):
     __tablename__ = 'user'
@@ -16,3 +17,4 @@ class User(Base):
     city: Mapped[str] = mapped_column(nullable=True)
     bio: Mapped[str] = mapped_column(nullable=True)
     travels: Mapped[List['Member']] = relationship(back_populates='user')
+    travels_owner: Mapped[List['Travel']] = relationship(back_populates='owner')

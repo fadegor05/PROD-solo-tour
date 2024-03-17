@@ -14,7 +14,6 @@ class Member(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     user: Mapped['User'] = relationship(back_populates='travels')
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
-    is_owner: Mapped[bool] = mapped_column(nullable=False, default=False)
 
     travel: Mapped['Travel'] = relationship(back_populates='members')
     travel_id: Mapped[int] = mapped_column(ForeignKey('travel.id'))
