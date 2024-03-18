@@ -7,7 +7,7 @@ from app.database import Base
 if TYPE_CHECKING:
     from .location import Location
     from .member import Member
-    from .user import User
+    from .note import Note
 
 class Travel(Base):
     __tablename__ = 'travel'
@@ -17,3 +17,4 @@ class Travel(Base):
     description: Mapped[str] = mapped_column(nullable=True)
     locations: Mapped[List['Location']] = relationship(back_populates='travel', lazy='selectin')
     members: Mapped[List['Member']] = relationship(back_populates='travel', lazy='selectin')
+    notes: Mapped[List['Note']] = relationship(back_populates='travel')
