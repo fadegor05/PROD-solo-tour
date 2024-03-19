@@ -3,6 +3,7 @@ from aiogram.filters import CommandStart, StateFilter
 from aiogram import F
 from aiogram.fsm.context import FSMContext
 import geocoder
+import aiogram
 
 from app.handlers.keyboards import HOME_KEYBOARD
 from app.fsm.user import CreateUser

@@ -12,6 +12,7 @@ from app.database import async_session
 from app.handlers.keyboards import get_reply_keyboard
 from app.fsm.travel import GetTravel, CreateTravel
 
+from app.handlers.keyboards import TRAVEL_KEYBOARD
 
 @router.message(StateFilter(None), F.text == messages['travel_button'])
 async def home_travel_handler(message: Message, state: FSMContext):
@@ -37,7 +38,7 @@ async def get_travel_handler(message: Message, state: FSMContext):
             await message.answer(messages['incorrect_input'], parse_mode='Markdown')
             return
         string = await travel_out(travel)
-        await message.answer(string, parse_mode='Markdown')
+        await message.answer(string, parse_mode='Markdown', reply_markup=TRAVEL_KEYBOARD)
         await state.clear()
 
 @router.message(CreateTravel.name, F.text)
@@ -59,5 +60,5 @@ async def get_travel_description_handler(message: Message, state: FSMContext):
         user = await get_user_by_telegram_id(session, message.from_user.id)
         travel = await create_travel(session, data['name'], data['description'], user)
         string = await travel_out(travel)
-        await message.answer(string, parse_mode='Markdown')
+        await message.answer(string, parse_mode='Markdown', reply_markup=TRAVEL_KEYBOARD)
         await state.clear()
