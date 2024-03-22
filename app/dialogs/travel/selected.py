@@ -3,7 +3,7 @@ from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.input import TextInput
 from aiogram_dialog.widgets.kbd import Select, Button
 
-from app.crud.travel import create_travel
+from app.crud.travel import create_travel, get_travel_by_name
 from app.database import async_session
 from app.dialogs.travel.states import TravelMenu
 from app.crud.user import get_user_by_telegram_id
@@ -22,6 +22,11 @@ async def on_create_travel(c: CallbackQuery, widget: Button, manager: DialogMana
 
 async def on_entered_name(m: Message, widget: TextInput, manager: DialogManager, name, **kwargs):
     ctx = manager.current_context()
+    async with async_session() as session:
+        travel = await get_travel_by_name(session, name)
+        if travel:
+            await m.reply('Данное имя путешествия занято')
+            return
     ctx.dialog_data.update(name=name)
     await manager.switch_to(TravelMenu.travel_description)
 
