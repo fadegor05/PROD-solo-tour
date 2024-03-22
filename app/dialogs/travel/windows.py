@@ -1,7 +1,7 @@
 from aiogram_dialog import Window
 from aiogram_dialog.widgets.input import TextInput
-from aiogram_dialog.widgets.kbd import Cancel, Button
-from aiogram_dialog.widgets.text import Const
+from aiogram_dialog.widgets.kbd import Cancel, Button, Back
+from aiogram_dialog.widgets.text import Const, Format
 
 from app.dialogs.travel import states, selected, keyboards, getters
 
@@ -36,4 +36,13 @@ def travel_description_window():
             on_success=selected.on_entered_description
         ),
         state=states.TravelMenu.travel_description
+    )
+
+
+def travel_info_window():
+    return Window(
+        Format('''Путешествие {travel_name}\n{travel_description}\nУчастников: {members_amount}\nОрганизатор: {owner_name}'''),
+        Back(Const('Назад'), on_click=selected.on_travel_back),
+        state=states.TravelMenu.select_action,
+        getter=getters.get_travel
     )

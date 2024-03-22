@@ -9,9 +9,9 @@ from app.dialogs.travel.states import TravelMenu
 from app.crud.user import get_user_by_telegram_id
 
 
-async def on_chosen_travel(c: CallbackQuery, widget: Select, manager: DialogManager, item_id: str, **kwargs):
+async def on_chosen_travel(c: CallbackQuery, widget: Select, manager: DialogManager, travel_id: str, **kwargs):
     ctx = manager.current_context()
-    ctx.dialog_data.update(travel_id=item_id)
+    ctx.dialog_data.update(travel_id=travel_id)
     await manager.switch_to(TravelMenu.select_action)
 
 
@@ -35,3 +35,7 @@ async def on_entered_description(m: Message, widget: TextInput, manager: DialogM
         travel = await create_travel(session, ctx.dialog_data.get('name'), ctx.dialog_data.get('description'), user)
         await m.answer(f'Путешествие {travel.name} было успешно создано')
     await manager.switch_to(TravelMenu.select_travel)
+
+
+async def on_travel_back(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
+    await manager.switch_to(TravelMenu.travel_name)
