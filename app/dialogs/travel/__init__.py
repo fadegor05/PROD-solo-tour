@@ -7,8 +7,10 @@ def menu_dialogs():
     return [
         Dialog(
             windows.travels_window(),
+            windows.travel_info_window(),
+        ),
+        Dialog(
             windows.travel_name_window(),
             windows.travel_description_window(),
-            windows.travel_info_window(),
         )
     ]

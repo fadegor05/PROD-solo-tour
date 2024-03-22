@@ -5,7 +5,7 @@ from aiogram_dialog.widgets.kbd import Select, Button
 
 from app.crud.travel import create_travel, get_travel_by_name
 from app.database import async_session
-from app.dialogs.travel.states import TravelMenu
+from app.dialogs.travel.states import TravelMenu, CreateTravel
 from app.dialogs.notes.states import NoteMenu
 from app.crud.user import get_user_by_telegram_id
 
@@ -18,7 +18,7 @@ async def on_chosen_travel(c: CallbackQuery, widget: Select, manager: DialogMana
 
 async def on_create_travel(c: CallbackQuery, widget: Button, manager: DialogManager):
     ctx = manager.current_context()
-    await manager.switch_to(TravelMenu.travel_name)
+    await manager.start(CreateTravel.name)
 
 
 async def on_entered_name(m: Message, widget: TextInput, manager: DialogManager, name, **kwargs):
@@ -29,7 +29,7 @@ async def on_entered_name(m: Message, widget: TextInput, manager: DialogManager,
             await m.reply('Данное имя путешествия занято')
             return
     ctx.dialog_data.update(name=name)
-    await manager.switch_to(TravelMenu.travel_description)
+    await manager.switch_to(CreateTravel.description)
 
 
 async def on_entered_description(m: Message, widget: TextInput, manager: DialogManager, description, **kwargs):
@@ -40,11 +40,7 @@ async def on_entered_description(m: Message, widget: TextInput, manager: DialogM
         user = await get_user_by_telegram_id(session, user_id)
         travel = await create_travel(session, ctx.dialog_data.get('name'), ctx.dialog_data.get('description'), user)
         await m.answer(f'Путешествие {travel.name} было успешно создано')
-    await manager.switch_to(TravelMenu.select_travel)
-
-
-async def on_travel_back(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
-    await manager.switch_to(TravelMenu.travel_name)
+    await manager.done()
 
 
 async def on_travel_notes(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):

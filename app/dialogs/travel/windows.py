@@ -17,6 +17,19 @@ def travels_window():
     )
 
 
+def travel_info_window():
+    return Window(
+        Format(
+            'Путешествие {travel_name}\n{travel_description}\n\nКоличество участников: {members_amount}\nОрганизатор: {owner_name}'),
+        Button(Const('Заметки'), 'travel_notes_button', selected.on_travel_notes),
+        Button(Const('Локации'), 'travel_locations_button'),
+        Button(Const('Участники'), 'travel_members_button'),
+        Back(Const('Назад')),
+        state=states.TravelMenu.select_action,
+        getter=getters.get_travel
+    )
+
+
 def travel_name_window():
     return Window(
         Const('Напишите имя путешествия'),
@@ -24,7 +37,7 @@ def travel_name_window():
             id='travel_enter_name',
             on_success=selected.on_entered_name
         ),
-        state=states.TravelMenu.travel_name
+        state=states.CreateTravel.name
     )
 
 
@@ -35,17 +48,5 @@ def travel_description_window():
             id='travel_enter_description',
             on_success=selected.on_entered_description
         ),
-        state=states.TravelMenu.travel_description
-    )
-
-
-def travel_info_window():
-    return Window(
-        Format('Путешествие {travel_name}\n{travel_description}\n\nКоличество участников: {members_amount}\nОрганизатор: {owner_name}'),
-        Button(Const('Заметки'), 'travel_notes_button', selected.on_travel_notes),
-        Button(Const('Локации'), 'travel_locations_button'),
-        Button(Const('Участники'), 'travel_members_button'),
-        Back(Const('Назад'), on_click=selected.on_travel_back),
-        state=states.TravelMenu.select_action,
-        getter=getters.get_travel
+        state=states.CreateTravel.description
     )
