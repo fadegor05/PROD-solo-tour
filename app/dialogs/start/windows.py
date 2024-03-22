@@ -9,7 +9,7 @@ def start_age_window():
     return Window(
         Const('Введите свой возраст'),
         TextInput(
-            id='enter_age',
+            id='start_enter_age',
             on_success=selected.on_entered_age
         ),
         state=states.StartMenu.age
@@ -20,7 +20,7 @@ def start_bio_window():
     return Window(
         Const('Напишите немного о себе'),
         TextInput(
-            id='enter_bio',
+            id='start_enter_bio',
             on_success=selected.on_entered_bio
         ),
         state=states.StartMenu.bio
@@ -31,7 +31,7 @@ def start_city_window():
     return Window(
         Const('Напишите свой город'),
         TextInput(
-            id='enter_city',
+            id='start_enter_city',
             on_success=selected.on_entered_city
         ),
         state=states.StartMenu.city
