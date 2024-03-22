@@ -1,9 +1,18 @@
+from typing import List
+
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import Select
+from sqlalchemy import Select, and_, or_
 
 from app.models.note import Note
 from app.models.travel import Travel
 from app.models.user import User
+
+
+async def get_accessible_notes_by_user_and_travel(session: AsyncSession, user: User, travel: Travel) -> List[Note]:
+    stmt = Select(Note).where(and_(Note.travel_id == travel.id, or_(Note.user_id == user.id, Note.is_public)))
+    result = await session.scalars(stmt)
+    notes = result.all()
+    return notes
 
 
 async def get_note_by_id(session: AsyncSession, id: int) -> Note | None:

@@ -7,9 +7,9 @@ from aiogram_dialog.widgets.text import Format
 def paginated_notes(on_click):
     return ScrollingGroup(
         Select(
-            Format('{item[1]}'),
+            Format('{item.name}'),
             id='s_scroll_notes',
-            item_id_getter=operator.itemgetter(0),
+            item_id_getter=operator.attrgetter('id'),
             items='notes',
             on_click=on_click
         ),
