@@ -17,7 +17,8 @@ def notes_window():
 
 def note_info_window():
     return Window(
-        Format('Заметка'),
+        Format('Заметка {note_name}\n\n{note_text}\n\nАвтор: {user}'),
         Back(Const('Назад')),
         state=states.NoteMenu.select_action,
+        getter=getters.get_note,
     )
