@@ -42,7 +42,7 @@ def travel_description_window():
 def travel_info_window():
     return Window(
         Format('Путешествие {travel_name}\n{travel_description}\n\nКоличество участников: {members_amount}\nОрганизатор: {owner_name}'),
-        Button(Const('Заметки'), 'travel_notes_button'),
+        Button(Const('Заметки'), 'travel_notes_button', selected.on_travel_notes),
         Button(Const('Локации'), 'travel_locations_button'),
         Button(Const('Участники'), 'travel_members_button'),
         Back(Const('Назад'), on_click=selected.on_travel_back),

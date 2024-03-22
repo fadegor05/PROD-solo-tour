@@ -6,6 +6,7 @@ from aiogram_dialog.widgets.kbd import Select, Button
 from app.crud.travel import create_travel, get_travel_by_name
 from app.database import async_session
 from app.dialogs.travel.states import TravelMenu
+from app.dialogs.notes.states import NoteMenu
 from app.crud.user import get_user_by_telegram_id
 
 
@@ -44,3 +45,7 @@ async def on_entered_description(m: Message, widget: TextInput, manager: DialogM
 
 async def on_travel_back(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
     await manager.switch_to(TravelMenu.travel_name)
+
+
+async def on_travel_notes(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
+    await manager.start(NoteMenu.select_note, {'travel_id': manager.dialog_data.get('travel_id')})
