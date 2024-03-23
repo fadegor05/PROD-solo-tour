@@ -26,3 +26,10 @@ async def get_location(dialog_manager: DialogManager, **kwargs):
             'arrive_at': location.arrive_at.strftime('%d/%m/%Y %H:%M:%S'),
             'departure_at': location.departure_at.strftime('%d/%m/%Y %H:%M:%S')
         }
+
+
+async def get_city_confirm(dialog_manager: DialogManager, **kwargs):
+    return {
+        'city': dialog_manager.current_context().dialog_data.get('city'),
+        'country': dialog_manager.current_context().dialog_data.get('country')
+    }

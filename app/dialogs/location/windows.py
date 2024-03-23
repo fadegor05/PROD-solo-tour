@@ -1,5 +1,6 @@
 from aiogram_dialog import Window
-from aiogram_dialog.widgets.kbd import Back, Cancel, Button
+from aiogram_dialog.widgets.input import TextInput
+from aiogram_dialog.widgets.kbd import Back, Cancel, Button, Next
 from aiogram_dialog.widgets.text import Const, Format
 
 from app.dialogs.location import keyboards, selected, states, getters
@@ -24,34 +25,45 @@ def location_info_window():
         getter=getters.get_location,
     )
 
-"""
+
 def location_city_window():
     return Window(
-        Const('Введите название заметки'),
+        Const('Введите название города'),
         TextInput(
-            id='note_enter_name',
-            on_success=selected.on_entered_name
+            id='location_enter_city',
+            on_success=selected.on_entered_city
         ),
-        state=states.CreateNote.name
+        state=states.CreateLocation.city
     )
 
 
-def note_is_public_window():
+def location_confirm_city_window():
     return Window(
-        Const('Будет ли эта заметка публичной?'),
-        Button(Const('Да'), 'note_public_true', selected.on_is_public_true),
-        Button(Const('Нет'), 'note_public_false', selected.on_is_public_false),
-        state=states.CreateNote.is_public
+        Format('{city}, {country} - Верно?'),
+        Next(Const('Да')),
+        Back(Const('Нет')),
+        getter=getters.get_city_confirm,
+        state=states.CreateLocation.confirm_city
     )
 
 
-def note_text_window():
+def location_arrive_at_window():
     return Window(
-        Const('Введите текст заметки'),
+        Const('Введите дату прибытия (например, 23/03/2024)'),
         TextInput(
-            id='note_enter_text',
-            on_success=selected.on_entered_text
+            id='location_enter_arrive_at',
+            on_success=selected.on_entered_arrive_at
         ),
-        state=states.CreateNote.text
+        state=states.CreateLocation.arrive_at
     )
-"""
+
+
+def location_departure_at_window():
+    return Window(
+        Const('Введите дату отправления (например, 23/03/2024)'),
+        TextInput(
+            id='location_enter_arrive_at',
+            on_success=selected.on_entered_departure_at
+        ),
+        state=states.CreateLocation.departure_at
+    )

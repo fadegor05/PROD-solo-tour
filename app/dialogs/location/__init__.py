@@ -9,4 +9,10 @@ def menu_dialogs():
             windows.locations_window(),
             windows.location_info_window(),
         ),
+        Dialog(
+            windows.location_city_window(),
+            windows.location_confirm_city_window(),
+            windows.location_arrive_at_window(),
+            windows.location_departure_at_window(),
+        ),
     ]
