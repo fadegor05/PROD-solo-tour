@@ -3,7 +3,7 @@ from aiogram_dialog.widgets.input import TextInput
 from aiogram_dialog.widgets.kbd import Back, Cancel, Button
 from aiogram_dialog.widgets.text import Const, Format
 
-from app.dialogs.notes import keyboards, selected, states, getters
+from app.dialogs.note import keyboards, selected, states, getters
 
 
 def notes_window():

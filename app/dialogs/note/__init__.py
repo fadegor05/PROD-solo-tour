@@ -1,6 +1,6 @@
 from aiogram_dialog import Dialog
 
-from app.dialogs.notes import windows
+from app.dialogs.note import windows
 
 
 def menu_dialogs():

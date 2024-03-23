@@ -10,7 +10,7 @@ def paginated_notes(on_click):
             Format('{item.name}'),
             id='s_scroll_notes',
             item_id_getter=operator.attrgetter('id'),
-            items='notes',
+            items='note',
             on_click=on_click
         ),
         id='notes_id',

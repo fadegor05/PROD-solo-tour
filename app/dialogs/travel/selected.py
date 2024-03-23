@@ -6,7 +6,7 @@ from aiogram_dialog.widgets.kbd import Select, Button
 from app.crud.travel import create_travel, get_travel_by_name
 from app.database import async_session
 from app.dialogs.travel.states import TravelMenu, CreateTravel
-from app.dialogs.notes.states import NoteMenu
+from app.dialogs.note.states import NoteMenu
 from app.crud.user import get_user_by_telegram_id
 
 
