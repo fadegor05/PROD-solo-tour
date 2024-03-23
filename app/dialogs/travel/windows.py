@@ -1,9 +1,12 @@
-from aiogram_dialog import Window
+from typing import Dict
+
+from aiogram_dialog import Window, Data, DialogManager
 from aiogram_dialog.widgets.input import TextInput
 from aiogram_dialog.widgets.kbd import Cancel, Button, Back
 from aiogram_dialog.widgets.text import Const, Format
 
 from app.dialogs.travel import states, selected, keyboards, getters
+from app.misc.constants import SwitchToWindow
 
 
 def travels_window():
@@ -60,3 +63,10 @@ def travel_description_window():
         ),
         state=states.CreateTravel.description
     )
+
+
+async def on_process_result(data: Data, result: Dict, manager: DialogManager):
+    if result:
+        switch_to_window = result.get('switch_to_window')
+        if switch_to_window == SwitchToWindow.SelectTravel:
+            await manager.switch_to(states.TravelMenu.select_travel)

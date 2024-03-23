@@ -8,6 +8,7 @@ def menu_dialogs():
         Dialog(
             windows.travels_window(),
             windows.travel_info_window(),
+            on_process_result=windows.on_process_result,
         ),
         Dialog(
             windows.travel_name_window(),
