@@ -18,7 +18,7 @@ def locations_window():
 
 def location_info_window():
     return Window(
-        Format('Локация'),
+        Format('Локация {city}, {country}\n\nПрибытие: {arrive_at}\nОтправление: {departure_at}'),
         Back(Const('Назад')),
         state=states.LocationMenu.select_action,
         getter=getters.get_location,
