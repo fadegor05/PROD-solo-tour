@@ -24,9 +24,19 @@ def travel_info_window():
         Button(Const('🗒️ Заметки'), 'travel_notes_button', selected.on_travel_notes),
         Button(Const('📍 Локации'), 'travel_locations_button', selected.on_travel_locations),
         Button(Const('👥 Участники'), 'travel_members_button'),
+        Button(Const('🗑️ Удалить'), 'travel_delete_button', selected.on_travel_delete),
         Back(Const('⬅️ Назад')),
         state=states.TravelMenu.select_action,
         getter=getters.get_travel
+    )
+
+
+def travel_delete_confirm_window():
+    return Window(
+        Format('Вы действительно хотите удалить путешествие?'),
+        Button(Const('Да'), 'travel_delete_confirm_button', selected.on_travel_delete_confirm),
+        Cancel(Const('Назад')),
+        state=states.DeleteTravel.delete_travel
     )
 
 

@@ -9,3 +9,7 @@ class TravelMenu(StatesGroup):
 class CreateTravel(StatesGroup):
     name = State()
     description = State()
+
+
+class DeleteTravel(StatesGroup):
+    delete_travel = State()

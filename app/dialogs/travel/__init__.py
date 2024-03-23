@@ -12,5 +12,8 @@ def menu_dialogs():
         Dialog(
             windows.travel_name_window(),
             windows.travel_description_window(),
-        )
+        ),
+        Dialog(
+            windows.travel_delete_confirm_window(),
+        ),
     ]
