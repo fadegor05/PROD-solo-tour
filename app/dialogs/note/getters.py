@@ -15,7 +15,7 @@ async def get_notes(dialog_manager: DialogManager, **kwargs):
         notes = await get_accessible_notes_by_user_and_travel(session, user, travel)
 
         return {
-            'note': notes
+            'notes': notes
         }
 
 

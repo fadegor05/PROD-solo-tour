@@ -17,4 +17,4 @@ class Travel(Base):
     description: Mapped[str] = mapped_column(nullable=True)
     locations: Mapped[List['Location']] = relationship(back_populates='travel', lazy='selectin')
     members: Mapped[List['Member']] = relationship(back_populates='travel', lazy='selectin')
-    notes: Mapped[List['Note']] = relationship(back_populates='travel')
+    notes: Mapped[List['Note']] = relationship(back_populates='travel', lazy='selectin')

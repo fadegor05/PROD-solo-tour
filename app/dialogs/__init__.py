@@ -1,4 +1,4 @@
-from . import travel, start, note
+from . import travel, start, note, location
 
 
 def get_dialogs():
@@ -6,4 +6,5 @@ def get_dialogs():
         *travel.menu_dialogs(),
         *start.menu_dialogs(),
         *note.menu_dialogs(),
+        *location.menu_dialogs(),
     ]

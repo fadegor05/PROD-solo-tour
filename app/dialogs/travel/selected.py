@@ -7,6 +7,7 @@ from app.crud.travel import create_travel, get_travel_by_name
 from app.database import async_session
 from app.dialogs.travel.states import TravelMenu, CreateTravel
 from app.dialogs.note.states import NoteMenu
+from app.dialogs.location.states import LocationMenu
 from app.crud.user import get_user_by_telegram_id
 
 
@@ -45,3 +46,7 @@ async def on_entered_description(m: Message, widget: TextInput, manager: DialogM
 
 async def on_travel_notes(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
     await manager.start(NoteMenu.select_note, {'travel_id': manager.dialog_data.get('travel_id')})
+
+
+async def on_travel_locations(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
+    await manager.start(LocationMenu.select_location, {'travel_id': manager.dialog_data.get('travel_id')})

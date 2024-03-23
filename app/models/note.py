@@ -16,7 +16,7 @@ class Note(Base):
     text: Mapped[str]
     images: Mapped[List['Image']] = relationship(back_populates='note')
     is_public: Mapped[bool] = mapped_column(default=True)
-    travel: Mapped['Travel'] = relationship(back_populates='note', lazy='selectin')
+    travel: Mapped['Travel'] = relationship(back_populates='notes', lazy='selectin')
     travel_id: Mapped[int] = mapped_column(ForeignKey('travel.id'))
-    user: Mapped['User'] = relationship(back_populates='note', lazy='selectin')
+    user: Mapped['User'] = relationship(back_populates='notes', lazy='selectin')
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
