@@ -7,7 +7,7 @@ from app.dialogs.start import states, selected
 
 def start_age_window():
     return Window(
-        Const('Введите свой возраст'),
+        Const('Введите свой возраст 🧔‍♂️'),
         TextInput(
             id='start_enter_age',
             on_success=selected.on_entered_age
@@ -18,7 +18,7 @@ def start_age_window():
 
 def start_bio_window():
     return Window(
-        Const('Напишите немного о себе'),
+        Const('Напишите немного о себе 😎'),
         TextInput(
             id='start_enter_bio',
             on_success=selected.on_entered_bio
@@ -29,7 +29,7 @@ def start_bio_window():
 
 def start_city_window():
     return Window(
-        Const('Напишите свой город'),
+        Const('Напишите свой город 🏠'),
         TextInput(
             id='start_enter_city',
             on_success=selected.on_entered_city

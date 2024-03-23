@@ -11,7 +11,7 @@ from app.dialogs.travel.states import TravelMenu
 
 async def on_entered_age(m: Message, widget: TextInput, manager: DialogManager, age, **kwargs):
     if not age.isdigit():
-        await m.answer('Пожайлуста, введите число')
+        await m.answer('Пожайлуста, введите число ⚠️')
         return
     age = int(age)
     ctx = manager.current_context()
@@ -30,7 +30,7 @@ async def on_entered_city(m: Message, widget: TextInput, manager: DialogManager,
     city = str(city)
     geo = geocoder.osm(city)
     if not geo.country or not geo.city:
-        await m.answer('Попробуйте еще раз')
+        await m.answer('Попробуйте еще раз ⚠️')
         return
     ctx = manager.current_context()
     user_id = manager.middleware_data.get('event_chat').id

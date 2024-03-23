@@ -27,7 +27,7 @@ async def on_entered_name(m: Message, widget: TextInput, manager: DialogManager,
     async with async_session() as session:
         travel = await get_travel_by_name(session, name)
         if travel:
-            await m.reply('Данное имя путешествия занято')
+            await m.reply('Данное имя путешествия занято ⚠️')
             return
     ctx.dialog_data.update(name=name)
     await manager.switch_to(CreateTravel.description)
@@ -40,7 +40,7 @@ async def on_entered_description(m: Message, widget: TextInput, manager: DialogM
     async with async_session() as session:
         user = await get_user_by_telegram_id(session, user_id)
         travel = await create_travel(session, ctx.dialog_data.get('name'), ctx.dialog_data.get('description'), user)
-        await m.answer(f'Путешествие {travel.name} было успешно создано')
+        await m.answer(f'Путешествие {travel.name} было успешно создано ✅')
     await manager.done()
 
 

@@ -7,7 +7,7 @@ from aiogram_dialog.widgets.text import Format
 def paginated_locations(on_click):
     return ScrollingGroup(
         Select(
-            Format('{item.city}'),
+            Format('📌 {item.city}, {item.country}'),
             id='s_scroll_notes',
             item_id_getter=operator.attrgetter('id'),
             items='locations',

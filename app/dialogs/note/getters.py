@@ -28,5 +28,6 @@ async def get_note(dialog_manager: DialogManager, **kwargs):
             'note_name': note.name,
             'note_text': note.text,
             'is_public': note.is_public,
+            'is_public_icon': '🌐 Публичная' if note.is_public else '🔒 Личная',
             'user': note.user.name
         }

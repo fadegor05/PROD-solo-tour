@@ -26,7 +26,7 @@ async def on_entered_city(m: Message, widget: TextInput, manager: DialogManager,
     ctx = manager.current_context()
     geo = geocoder.osm(city)
     if not geo.country or not geo.city:
-        await m.reply('Попробуйте еще раз')
+        await m.reply('Попробуйте еще раз ⚠️')
         return
     ctx.dialog_data.update(city=geo.city, country=geo.country)
     await manager.switch_to(CreateLocation.confirm_city)
@@ -36,7 +36,7 @@ async def on_entered_arrive_at(m: Message, widget: TextInput, manager: DialogMan
     ctx = manager.current_context()
     match = re.match(r'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\d{4}$', arrive_at)
     if not match:
-        await m.reply('Попробуйте еще раз')
+        await m.reply('Попробуйте еще раз ⚠️')
         return
     ctx.dialog_data.update(arrive_at=match.group())
     await manager.switch_to(CreateLocation.departure_at)
@@ -46,7 +46,7 @@ async def on_entered_departure_at(m: Message, widget: TextInput, manager: Dialog
     ctx = manager.current_context()
     match = re.match(r'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\d{4}$', departure_at)
     if not match:
-        await m.reply('Попробуйте еще раз')
+        await m.reply('Попробуйте еще раз ⚠️')
         return
     ctx.dialog_data.update(departure_at=match.group())
 
@@ -57,4 +57,5 @@ async def on_entered_departure_at(m: Message, widget: TextInput, manager: Dialog
         travel = await get_travel_by_id(session, travel_id)
         location = await create_location(session, travel, ctx.dialog_data.get('city'), ctx.dialog_data.get('country'),
                                          arrive_at_datetime, departure_at_datetime)
+        await m.answer(f'Локация {location.city}, {location.country} была успешно добавлена ✅')
     await manager.done()

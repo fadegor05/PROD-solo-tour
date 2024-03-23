@@ -7,7 +7,7 @@ from aiogram_dialog.widgets.text import Format
 def paginated_travels(on_click):
     return ScrollingGroup(
         Select(
-            Format('{item.name}'),
+            Format('🗺️ {item.name}'),
             id='s_scroll_travels',
             item_id_getter=operator.attrgetter('id'),
             items='travels',

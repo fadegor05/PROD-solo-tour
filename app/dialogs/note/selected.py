@@ -48,6 +48,6 @@ async def on_entered_text(m: Message, widget: TextInput, manager: DialogManager,
         user = await get_user_by_telegram_id(session, user_id)
         note = await create_note(session, ctx.dialog_data.get('name'), ctx.dialog_data.get('text'),
                                  ctx.dialog_data.get('is_public'), user, travel)
-        await m.answer(f'Заметка {note.name} была создана')
+        await m.answer(f'Заметка {note.name} была создана ✅')
     await manager.done()
 
