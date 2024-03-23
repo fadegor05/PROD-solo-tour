@@ -7,6 +7,11 @@ from app.models.user import User
 from app.models.member import Member
 
 
+async def delete_travel(session: AsyncSession, travel: Travel) -> None:
+    await session.delete(travel)
+    await session.commit()
+
+
 async def create_travel(session: AsyncSession, name: str, description: str, owner: User) -> Travel:
     member = Member(user=owner, is_owner=True)
     travel = Travel(name=name, description=description, members=[member])
