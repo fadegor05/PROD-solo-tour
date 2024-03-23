@@ -23,8 +23,8 @@ async def get_location(dialog_manager: DialogManager, **kwargs):
         return {
             'city': location.city,
             'country': location.country,
-            'arrive_at': location.arrive_at.strftime('%d/%m/%Y %H:%M:%S'),
-            'departure_at': location.departure_at.strftime('%d/%m/%Y %H:%M:%S')
+            'arrive_at': location.arrive_at.strftime('%d/%m/%Y'),
+            'departure_at': location.departure_at.strftime('%d/%m/%Y')
         }
 
 
