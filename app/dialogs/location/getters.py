@@ -19,8 +19,6 @@ async def get_location(dialog_manager: DialogManager, **kwargs):
     async with async_session() as session:
         location_id = int(dialog_manager.dialog_data.get('location_id'))
         location = await get_location_by_id(session, location_id)
-        print('ZVVZVZVZVZVZVZZVZZVZVZVVZVZVZVZVZVZVZVVZVZVZVVZVZVZV')
-        print(type(location.arrive_at))
 
         return {
             'city': location.city,
