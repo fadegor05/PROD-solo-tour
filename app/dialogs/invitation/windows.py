@@ -10,7 +10,7 @@ from app.misc.constants import SwitchToWindow
 
 def invitations_window():
     return Window(
-        Const('Выберите приглашение, которое хотите 📨'),
+        Format('Выберите приглашение, которое хотите 📨\n\n🔑 Ваш код для приглашения другими:\n{code}'),
         keyboards.paginated_invitations(selected.on_chosen_invitation),
         Cancel(Const('⬅️ Назад')),
         state=states.InvitationMenu.select_invitation,

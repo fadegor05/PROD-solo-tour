@@ -12,7 +12,8 @@ async def get_invitations(dialog_manager: DialogManager, **kwargs):
         user = await get_user_by_telegram_id(session, user_id)
 
         return {
-            'invitations': user.invitations
+            'invitations': user.invitations,
+            'code': user.uuid
         }
 
 
