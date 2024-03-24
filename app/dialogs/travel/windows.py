@@ -14,7 +14,7 @@ def travels_window():
         Const('Выберите путешествие, которые вы хотите 🧳'),
         keyboards.paginated_travels(selected.on_chosen_travel),
         Button(Const('✈️ Создать путешествие'), 'create_travel', selected.on_create_travel),
-        Cancel(Const('❌ Выход')),
+        Cancel(Const('⬅️ Назад')),
         state=states.TravelMenu.select_travel,
         getter=getters.get_travels,
     )
