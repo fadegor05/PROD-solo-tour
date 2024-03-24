@@ -23,19 +23,9 @@ def members_window():
 def member_info_window():
     return Window(
         Format('Участник {name} ({age}) 👤\n\n{bio}\n\n{is_owner_icon}'),
-        Button(Const('❌ Исключить'), 'kick_member', selected.on_member_kick),
         Back(Const('⬅️ Назад')),
         state=states.MemberMenu.select_action,
         getter=getters.get_member,
-    )
-
-
-def member_kick_confirm_window():
-    return Window(
-        Format('Вы действительно хотите исключить участника? ❌'),
-        Button(Const('✅ Да'), 'member_kick_confirm_button', selected.on_member_kick_confirm),
-        Cancel(Const('⬅️ Назад')),
-        state=states.KickMember.kick_member
     )
 
 
