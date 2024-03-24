@@ -39,6 +39,12 @@ async def get_travel_owner_by_travel(session: AsyncSession, travel: Travel) -> U
     return member.user
 
 
+async def is_user_travel_member(session: AsyncSession, travel: Travel, user: User) -> bool:
+    stmt = select(Member).where(and_(Member.travel_id == travel.id, Member.user_id == user.id))
+    member = await session.scalar(stmt)
+    return True if member else False
+
+
 async def is_user_travel_owner_by_user(session: AsyncSession, travel: Travel, user: User) -> bool:
     travel_owner = await get_travel_owner_by_travel(session, travel)
     return travel_owner.id == user.id
