@@ -8,7 +8,7 @@ async def request_ors_api(coordinates: List[Tuple[float, float]]) -> Dict:
     url = 'https://api.openrouteservice.org/v2/directions/driving-hgv'
     body = {
         'coordinates': coordinates,
-        'radiuses': [-1]
+        'radiuses': [900]
     }
     response = requests.post(url, json=body, headers={'Authorization': ORS_KEY})
     data = response.json()

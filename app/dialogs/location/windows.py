@@ -3,6 +3,7 @@ from typing import Dict
 from aiogram_dialog import Window, Data, DialogManager
 from aiogram_dialog.widgets.input import TextInput
 from aiogram_dialog.widgets.kbd import Back, Cancel, Button, Next
+from aiogram_dialog.widgets.media import DynamicMedia
 from aiogram_dialog.widgets.text import Const, Format
 
 from app.dialogs.location import keyboards, selected, states, getters
@@ -11,6 +12,7 @@ from app.misc.constants import SwitchToWindow
 
 def locations_window():
     return Window(
+        DynamicMedia('image'),
         Const('Выберите локацию, которую хотите 🌎'),
         keyboards.paginated_locations(selected.on_chosen_location),
         Button(Const('📍 Добавить локацию'), 'create_location', selected.on_create_location),
