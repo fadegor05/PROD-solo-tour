@@ -3,6 +3,12 @@ from sqlalchemy import select
 from app.models.user import User
 
 
+async def get_user_by_uuid(session: AsyncSession, uuid: str) -> User | None:
+    stmt = select(User).where(User.uuid == uuid)
+    user = await session.scalar(stmt)
+    return user
+
+
 async def get_user_by_id(session: AsyncSession, id: int) -> User | None:
     stmt = select(User).where(User.id == id)
     user = await session.scalar(stmt)
