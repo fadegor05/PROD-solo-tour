@@ -4,6 +4,7 @@ from app.crud.travel import get_travel_by_id
 from app.crud.user import get_user_by_telegram_id
 from app.database import async_session
 from app.crud.note import get_accessible_notes_by_user_and_travel, get_note_by_id
+from app.misc.exists import is_note_exists
 
 
 async def get_notes(dialog_manager: DialogManager, **kwargs):
@@ -23,6 +24,9 @@ async def get_note(dialog_manager: DialogManager, **kwargs):
     async with async_session() as session:
         note_id = int(dialog_manager.dialog_data.get('note_id'))
         note = await get_note_by_id(session, note_id)
+        if not await is_note_exists(note_id):
+            await dialog_manager.done()
+            return
 
         return {
             'note_name': note.name,

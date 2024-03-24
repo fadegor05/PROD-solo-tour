@@ -9,9 +9,13 @@ from app.crud.user import get_user_by_telegram_id
 from app.database import async_session
 from app.dialogs.note.states import NoteMenu, CreateNote, DeleteNote
 from app.misc.constants import SwitchToWindow
+from app.misc.exists import is_note_exists
 
 
 async def on_chosen_note(c: CallbackQuery, widget: Select, manager: DialogManager, note_id: str, **kwargs):
+    if not await is_note_exists(note_id):
+        await c.answer('Такой заметки не существует ⚠️')
+        return
     ctx = manager.current_context()
     ctx.dialog_data.update(note_id=note_id)
     await manager.switch_to(NoteMenu.select_action)
@@ -22,14 +26,27 @@ async def on_create_note(c: CallbackQuery, widget: Button, manager: DialogManage
 
 
 async def on_delete_note(c: CallbackQuery, widget: Button, manager: DialogManager):
-    await manager.start(DeleteNote.delete_note, data={'note_id': manager.dialog_data.get('note_id')})
+    note_id = manager.dialog_data.get('note_id')
+    if not await is_note_exists(note_id):
+        await c.answer('Такой заметки не существует ⚠️')
+        await manager.back()
+        return
+    await manager.start(DeleteNote.delete_note, data={'note_id': note_id})
 
 
 async def on_delete_note_confirm(c: CallbackQuery, widget: Button, manager: DialogManager):
+    note_id = int(manager.start_data.get('note_id'))
+    if not await is_note_exists(note_id):
+        await c.answer('Такой заметки не существует ⚠️')
+        await manager.done(
+            {
+                'switch_to_window': SwitchToWindow.SelectNote
+            }
+        )
+        return
     async with async_session() as session:
         user_id = manager.middleware_data.get('event_chat').id
         user = await get_user_by_telegram_id(session, user_id)
-        note_id = int(manager.start_data.get('note_id'))
         note = await get_note_by_id(session, note_id)
         if user.id != note.user.id:
             await c.answer('У вас недостаточно прав ❌')
