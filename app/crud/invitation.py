@@ -1,7 +1,20 @@
 from sqlalchemy import Select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models import Invitation
+from app.models import Invitation, Travel, User
+
+
+async def create_invitation(session: AsyncSession, travel: Travel, user: User) -> Invitation:
+    invitation = Invitation(travel=travel, user=user)
+    session.add(invitation)
+    await session.commit()
+    await session.refresh(invitation)
+    return invitation
+
+
+async def delete_invitation(session: AsyncSession, invitation: Invitation) -> None:
+    await session.delete(invitation)
+    await session.commit()
 
 
 async def get_invitation_by_id(session: AsyncSession, id: int) -> Invitation | None:
