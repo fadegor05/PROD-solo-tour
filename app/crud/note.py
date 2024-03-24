@@ -8,6 +8,11 @@ from app.models.travel import Travel
 from app.models.user import User
 
 
+async def delete_note(session: AsyncSession, note: Note) -> None:
+    await session.delete(note)
+    await session.commit()
+
+
 async def delete_notes_by_travel(session: AsyncSession, travel: Travel) -> None:
     for note in travel.notes:
         await session.delete(note)
