@@ -1,4 +1,4 @@
-from sqlalchemy import Select
+from sqlalchemy import Select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Invitation, Travel, User
@@ -21,3 +21,9 @@ async def get_invitation_by_id(session: AsyncSession, id: int) -> Invitation | N
     stmt = Select(Invitation).where(Invitation.id == id)
     invitation = await session.scalar(stmt)
     return invitation
+
+
+async def is_user_invited_to_travel(session: AsyncSession, travel: Travel, user: User) -> bool:
+    stmt = Select(Invitation).where(and_(Invitation.user_id == user.id, Invitation.travel_id == travel.id))
+    invitation = await session.scalar(stmt)
+    return True if invitation else False
