@@ -6,6 +6,7 @@ from aiogram_dialog.widgets.kbd import Button
 
 from app.crud.user import update_user_detailed_by_telegram_id
 from app.database import async_session
+from app.dialogs.invitation.states import InvitationMenu
 from app.dialogs.start.states import StartMenu, CreateUser
 from app.dialogs.travel.states import TravelMenu
 
@@ -47,4 +48,4 @@ async def on_start_travels(c: CallbackQuery, widget: Button, manager: DialogMana
 
 
 async def on_start_invitations(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
-    pass
+    await manager.start(InvitationMenu.select_invitation)

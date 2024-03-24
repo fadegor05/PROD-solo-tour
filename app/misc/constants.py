@@ -6,3 +6,4 @@ class SwitchToWindow(Enum):
     SelectMember = 2
     SelectNote = 3
     SelectLocation = 4
+    SelectInvitation = 5

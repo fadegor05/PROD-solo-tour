@@ -12,7 +12,7 @@ class Invitation(Base):
     __tablename__ = 'invitation'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    travel: Mapped['Travel'] = relationship(back_populates='invitations')
+    travel: Mapped['Travel'] = relationship(back_populates='invitations', lazy='selectin')
     travel_id: Mapped[int] = mapped_column(ForeignKey('travel.id'))
-    user: Mapped['User'] = relationship(back_populates='invitations')
+    user: Mapped['User'] = relationship(back_populates='invitations', lazy='selectin')
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
