@@ -5,6 +5,7 @@ from sqlalchemy import ForeignKey
 from app.database import Base
 
 if TYPE_CHECKING:
+    from .invitation import Invitation
     from .location import Location
     from .member import Member
     from .note import Note
@@ -18,3 +19,4 @@ class Travel(Base):
     locations: Mapped[List['Location']] = relationship(back_populates='travel', lazy='selectin')
     members: Mapped[List['Member']] = relationship(back_populates='travel', lazy='selectin')
     notes: Mapped[List['Note']] = relationship(back_populates='travel', lazy='selectin')
+    invitations: Mapped[List['Invitation']] = relationship(back_populates='travel', lazy='selectin')
