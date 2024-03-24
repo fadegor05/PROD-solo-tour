@@ -1,8 +1,11 @@
-from aiogram_dialog import Window
+from typing import Dict
+
+from aiogram_dialog import Window, DialogManager, Data
 from aiogram_dialog.widgets.kbd import Button, Cancel, Back
 from aiogram_dialog.widgets.text import Const, Format
 
 from app.dialogs.member import keyboards, selected, states, getters
+from app.misc.constants import SwitchToWindow
 
 
 def members_window():
@@ -19,8 +22,24 @@ def members_window():
 def member_info_window():
     return Window(
         Format('Участник {name} ({age}) 👤\n\n{bio}\n\n{is_owner_icon}'),
-        Button(Const('❌ Исключить'), 'kick_member'),
+        Button(Const('❌ Исключить'), 'kick_member', selected.on_member_kick),
         Back(Const('⬅️ Назад')),
         state=states.MemberMenu.select_action,
         getter=getters.get_member,
     )
+
+
+def member_kick_confirm_window():
+    return Window(
+        Format('Вы действительно хотите исключить участника? ❌'),
+        Button(Const('✅ Да'), 'member_kick_confirm_button', selected.on_member_kick_confirm),
+        Cancel(Const('⬅️ Назад')),
+        state=states.KickMember.kick_member
+    )
+
+
+async def on_process_result(data: Data, result: Dict, manager: DialogManager):
+    if result:
+        switch_to_window = result.get('switch_to_window')
+        if switch_to_window == SwitchToWindow.SelectMember:
+            await manager.switch_to(states.MemberMenu.select_member)

@@ -8,3 +8,7 @@ class MemberMenu(StatesGroup):
 
 class InviteMember(StatesGroup):
     code = State()
+
+
+class KickMember(StatesGroup):
+    kick_member = State()

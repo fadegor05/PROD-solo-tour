@@ -8,5 +8,9 @@ def menu_dialogs():
         Dialog(
             windows.members_window(),
             windows.member_info_window(),
+            on_process_result=windows.on_process_result,
         ),
+        Dialog(
+            windows.member_kick_confirm_window(),
+        )
     ]
