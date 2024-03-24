@@ -26,7 +26,7 @@ def travel_info_window():
             'Путешествие {travel_name} ✈️\n🏷️ {owner_name}\n👥 Участников: {members_amount}\n\n{travel_description}'),
         Button(Const('🗒️ Заметки'), 'travel_notes_button', selected.on_travel_notes),
         Button(Const('📍 Локации'), 'travel_locations_button', selected.on_travel_locations),
-        Button(Const('👥 Участники'), 'travel_members_button'),
+        Button(Const('👥 Участники'), 'travel_members_button', selected.on_travel_members),
         Button(Const('🗑️ Удалить'), 'travel_delete_button', selected.on_travel_delete),
         Back(Const('⬅️ Назад')),
         state=states.TravelMenu.select_action,

@@ -9,6 +9,7 @@ from app.crud.note import delete_notes_by_travel
 from app.crud.travel import create_travel, get_travel_by_name, get_travel_by_id, delete_travel, \
     is_user_travel_owner_by_user
 from app.database import async_session
+from app.dialogs.member.states import MemberMenu
 from app.dialogs.travel.states import TravelMenu, CreateTravel, DeleteTravel
 from app.dialogs.note.states import NoteMenu
 from app.dialogs.location.states import LocationMenu
@@ -55,6 +56,10 @@ async def on_travel_notes(c: CallbackQuery, widget: Button, manager: DialogManag
 
 async def on_travel_locations(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
     await manager.start(LocationMenu.select_location, {'travel_id': manager.dialog_data.get('travel_id')})
+
+
+async def on_travel_members(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
+    await manager.start(MemberMenu.select_member, {'travel_id': manager.dialog_data.get('travel_id')})
 
 
 async def on_travel_delete(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
