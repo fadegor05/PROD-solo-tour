@@ -10,3 +10,7 @@ class CreateNote(StatesGroup):
     name = State()
     is_public = State()
     text = State()
+
+
+class DeleteNote(StatesGroup):
+    delete_note = State()

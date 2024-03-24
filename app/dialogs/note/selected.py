@@ -3,11 +3,12 @@ from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.input import TextInput
 from aiogram_dialog.widgets.kbd import Select, Button
 
-from app.crud.note import create_note
+from app.crud.note import create_note, get_note_by_id, delete_note
 from app.crud.travel import get_travel_by_id
 from app.crud.user import get_user_by_telegram_id
 from app.database import async_session
-from app.dialogs.note.states import NoteMenu, CreateNote
+from app.dialogs.note.states import NoteMenu, CreateNote, DeleteNote
+from app.misc.constants import SwitchToWindow
 
 
 async def on_chosen_note(c: CallbackQuery, widget: Select, manager: DialogManager, note_id: str, **kwargs):
@@ -19,6 +20,29 @@ async def on_chosen_note(c: CallbackQuery, widget: Select, manager: DialogManage
 async def on_create_note(c: CallbackQuery, widget: Button, manager: DialogManager):
     await manager.start(CreateNote.name, data={'travel_id': manager.start_data.get('travel_id')})
 
+
+async def on_delete_note(c: CallbackQuery, widget: Button, manager: DialogManager):
+    await manager.start(DeleteNote.delete_note, data={'note_id': manager.dialog_data.get('note_id')})
+
+
+async def on_delete_note_confirm(c: CallbackQuery, widget: Button, manager: DialogManager):
+    async with async_session() as session:
+        user_id = manager.middleware_data.get('event_chat').id
+        user = await get_user_by_telegram_id(session, user_id)
+        note_id = int(manager.start_data.get('note_id'))
+        note = await get_note_by_id(session, note_id)
+        if user.id != note.user.id:
+            await c.answer('У вас недостаточно прав ❌')
+            await manager.done()
+            return
+        name = note.name
+        await delete_note(session, note)
+        await c.answer(f'Заметка {name} была успешно удалена ✅')
+    await manager.done(
+        {
+            'switch_to_window': SwitchToWindow.SelectNote
+        }
+    )
 
 async def on_entered_name(m: Message, widget: TextInput, manager: DialogManager, name, **kwargs):
     ctx = manager.current_context()
