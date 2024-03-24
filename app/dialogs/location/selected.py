@@ -12,9 +12,13 @@ from app.crud.user import get_user_by_telegram_id
 from app.database import async_session
 from app.dialogs.location.states import LocationMenu, CreateLocation, DeleteLocation
 from app.misc.constants import SwitchToWindow
+from app.misc.exists import is_location_exists
 
 
 async def on_chosen_location(c: CallbackQuery, widget: Select, manager: DialogManager, location_id: str, **kwargs):
+    if not await is_location_exists(location_id):
+        await c.answer('Такой локации не существует ⚠️')
+        return
     ctx = manager.current_context()
     ctx.dialog_data.update(location_id=location_id)
     await manager.switch_to(LocationMenu.select_action)
@@ -25,8 +29,13 @@ async def on_create_location(c: CallbackQuery, widget: Button, manager: DialogMa
 
 
 async def on_delete_location(c: CallbackQuery, widget: Button, manager: DialogManager):
-    await manager.start(DeleteLocation.delete_location, data={'location_id': manager.dialog_data.get('location_id'),
-                                                              'travel_id': manager.start_data.get('travel_id')})
+    location_id = manager.dialog_data.get('location_id')
+    travel_id = manager.start_data.get('travel_id')
+    if not await is_location_exists(location_id):
+        await c.answer('Такой локации не существует ⚠️')
+        await manager.done()
+        return
+    await manager.start(DeleteLocation.delete_location, data={'location_id': location_id, 'travel_id': travel_id})
 
 
 async def on_delete_location_confirm(c: CallbackQuery, widget: Button, manager: DialogManager):
@@ -41,6 +50,14 @@ async def on_delete_location_confirm(c: CallbackQuery, widget: Button, manager: 
             await manager.done()
             return
         location_id = int(manager.start_data.get('location_id'))
+        if not await is_location_exists(location_id):
+            await c.answer('Такой локации не существует ⚠️')
+            await manager.done(
+                {
+                    'switch_to_window': SwitchToWindow.SelectLocation
+                }
+            )
+            return
         location = await get_location_by_id(session, location_id)
         name = f'{location.city}, {location.country}'
         await delete_location(session, location)

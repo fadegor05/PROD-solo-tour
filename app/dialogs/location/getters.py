@@ -3,6 +3,7 @@ from aiogram_dialog import DialogManager
 from app.crud.location import get_location_by_id
 from app.crud.travel import get_travel_by_id
 from app.database import async_session
+from app.misc.exists import is_location_exists
 
 
 async def get_locations(dialog_manager: DialogManager, **kwargs):
@@ -19,6 +20,9 @@ async def get_location(dialog_manager: DialogManager, **kwargs):
     async with async_session() as session:
         location_id = int(dialog_manager.dialog_data.get('location_id'))
         location = await get_location_by_id(session, location_id)
+        if not await is_location_exists(location_id):
+            await dialog_manager.done()
+            return
 
         return {
             'city': location.city,
