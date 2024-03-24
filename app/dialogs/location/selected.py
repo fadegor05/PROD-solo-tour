@@ -38,6 +38,11 @@ async def on_entered_arrive_at(m: Message, widget: TextInput, manager: DialogMan
     if not match:
         await m.reply('Попробуйте еще раз ⚠️')
         return
+    try:
+        date = datetime.datetime.strptime(match.group(), '%d/%m/%Y')
+    except:
+        await m.reply('Попробуйте еще раз ⚠️')
+        return
     ctx.dialog_data.update(arrive_at=match.group())
     await manager.switch_to(CreateLocation.departure_at)
 
@@ -46,6 +51,11 @@ async def on_entered_departure_at(m: Message, widget: TextInput, manager: Dialog
     ctx = manager.current_context()
     match = re.match(r'^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\d{4}$', departure_at)
     if not match:
+        await m.reply('Попробуйте еще раз ⚠️')
+        return
+    try:
+        date = datetime.datetime.strptime(match.group(), '%d/%m/%Y')
+    except:
         await m.reply('Попробуйте еще раз ⚠️')
         return
     ctx.dialog_data.update(departure_at=match.group())
