@@ -30,11 +30,13 @@ async def create_user(session: AsyncSession, telegram_id: int, name: str) -> Use
 
 
 async def update_user_detailed_by_telegram_id(session: AsyncSession, telegram_id: int, age: int, city: str,
-                                              country: str, bio: str) -> User:
+                                              country: str, bio: str, lon: float, lat: float) -> User:
     user = await get_user_by_telegram_id(session, telegram_id)
     user.age = age
     user.city = city
     user.country = country
     user.bio = bio
+    user.lon = lon
+    user.lat = lat
     await session.commit()
     return user

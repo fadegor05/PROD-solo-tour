@@ -21,6 +21,8 @@ class User(Base):
     age: Mapped[int] = mapped_column(nullable=True)
     country: Mapped[str] = mapped_column(nullable=True)
     city: Mapped[str] = mapped_column(nullable=True)
+    lon: Mapped[float] = mapped_column(nullable=True)
+    lat: Mapped[float] = mapped_column(nullable=True)
     bio: Mapped[str] = mapped_column(nullable=True)
     travels: Mapped[List['Member']] = relationship(back_populates='user', lazy='selectin')
     notes: Mapped[List['Note']] = relationship(back_populates='user')

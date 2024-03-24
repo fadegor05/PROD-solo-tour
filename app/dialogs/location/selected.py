@@ -75,7 +75,7 @@ async def on_entered_city(m: Message, widget: TextInput, manager: DialogManager,
     if not geo.country or not geo.city:
         await m.reply('Попробуйте еще раз ⚠️')
         return
-    ctx.dialog_data.update(city=geo.city, country=geo.country)
+    ctx.dialog_data.update(city=geo.city, country=geo.country, lon=geo.json['lng'], lat=geo.json['lat'])
     await manager.switch_to(CreateLocation.confirm_city)
 
 
@@ -113,6 +113,7 @@ async def on_entered_departure_at(m: Message, widget: TextInput, manager: Dialog
         travel_id = int(manager.start_data.get('travel_id'))
         travel = await get_travel_by_id(session, travel_id)
         location = await create_location(session, travel, ctx.dialog_data.get('city'), ctx.dialog_data.get('country'),
+                                         float(ctx.dialog_data.get('lon')), float(ctx.dialog_data.get('lat')),
                                          arrive_at_datetime, departure_at_datetime)
         await m.answer(f'Локация {location.city}, {location.country} была успешно добавлена ✅')
     await manager.done()

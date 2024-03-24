@@ -38,7 +38,7 @@ async def on_entered_city(m: Message, widget: TextInput, manager: DialogManager,
     user_id = manager.middleware_data.get('event_chat').id
     async with async_session() as session:
         await update_user_detailed_by_telegram_id(session, user_id, ctx.dialog_data.get('age'), geo.city, geo.country,
-                                                  ctx.dialog_data.get('bio'))
+                                                  ctx.dialog_data.get('bio'), geo.json['lng'], geo.json['lat'])
     await manager.done()
     await manager.start(StartMenu.select_menu)
 

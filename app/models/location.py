@@ -16,5 +16,7 @@ class Location(Base):
     travel_id: Mapped[int] = mapped_column(ForeignKey('travel.id'))
     city: Mapped[str] = mapped_column(nullable=True)
     country: Mapped[str] = mapped_column(nullable=True)
+    lon: Mapped[float] = mapped_column(nullable=True)
+    lat: Mapped[float] = mapped_column(nullable=True)
     arrive_at: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True), nullable=True)
     departure_at: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True), nullable=True)
