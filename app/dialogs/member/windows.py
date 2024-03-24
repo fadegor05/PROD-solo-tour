@@ -1,6 +1,7 @@
 from typing import Dict
 
 from aiogram_dialog import Window, DialogManager, Data
+from aiogram_dialog.widgets.input import TextInput
 from aiogram_dialog.widgets.kbd import Button, Cancel, Back
 from aiogram_dialog.widgets.text import Const, Format
 
@@ -35,6 +36,17 @@ def member_kick_confirm_window():
         Button(Const('✅ Да'), 'member_kick_confirm_button', selected.on_member_kick_confirm),
         Cancel(Const('⬅️ Назад')),
         state=states.KickMember.kick_member
+    )
+
+
+def member_invite_window():
+    return Window(
+        Const('Введите код пользователя, которого вы хотите пригласить 🔑'),
+        TextInput(
+            id='member_enter_code',
+            on_success=selected.on_entered_code
+        ),
+        state=states.InviteMember.code
     )
 
 

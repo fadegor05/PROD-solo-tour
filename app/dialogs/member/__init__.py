@@ -12,5 +12,8 @@ def menu_dialogs():
         ),
         Dialog(
             windows.member_kick_confirm_window(),
+        ),
+        Dialog(
+            windows.member_invite_window()
         )
     ]
