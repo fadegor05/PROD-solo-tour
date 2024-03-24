@@ -15,9 +15,13 @@ from app.dialogs.note.states import NoteMenu
 from app.dialogs.location.states import LocationMenu
 from app.crud.user import get_user_by_telegram_id
 from app.misc.constants import SwitchToWindow
+from app.misc.exists import is_travel_exists
 
 
 async def on_chosen_travel(c: CallbackQuery, widget: Select, manager: DialogManager, travel_id: str, **kwargs):
+    if not await is_travel_exists(travel_id):
+        await c.answer('Такого путешествия не существует ⚠️')
+        return
     ctx = manager.current_context()
     ctx.dialog_data.update(travel_id=travel_id)
     await manager.switch_to(TravelMenu.select_action)
@@ -51,25 +55,53 @@ async def on_entered_description(m: Message, widget: TextInput, manager: DialogM
 
 
 async def on_travel_notes(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
-    await manager.start(NoteMenu.select_note, {'travel_id': manager.dialog_data.get('travel_id')})
+    travel_id = manager.dialog_data.get('travel_id')
+    if not await is_travel_exists(travel_id):
+        await c.answer('Такого путешествия не существует ⚠️')
+        await manager.done()
+        return
+    await manager.start(NoteMenu.select_note, {'travel_id': travel_id})
 
 
 async def on_travel_locations(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
-    await manager.start(LocationMenu.select_location, {'travel_id': manager.dialog_data.get('travel_id')})
+    travel_id = manager.dialog_data.get('travel_id')
+    if not await is_travel_exists(travel_id):
+        await c.answer('Такого путешествия не существует ⚠️')
+        await manager.done()
+        return
+    await manager.start(LocationMenu.select_location, {'travel_id': travel_id})
 
 
 async def on_travel_members(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
-    await manager.start(MemberMenu.select_member, {'travel_id': manager.dialog_data.get('travel_id')})
+    travel_id = manager.dialog_data.get('travel_id')
+    if not await is_travel_exists(travel_id):
+        await c.answer('Такого путешествия не существует ⚠️')
+        await manager.done()
+        return
+    await manager.start(MemberMenu.select_member, {'travel_id': travel_id})
 
 
 async def on_travel_delete(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
-    await manager.start(DeleteTravel.delete_travel, {'travel_id': manager.dialog_data.get('travel_id')})
+    travel_id = manager.dialog_data.get('travel_id')
+    if not await is_travel_exists(travel_id):
+        await c.answer('Такого путешествия не существует ⚠️')
+        await manager.done()
+        return
+    await manager.start(DeleteTravel.delete_travel, {'travel_id': travel_id})
 
 
 async def on_travel_delete_confirm(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
     async with async_session() as session:
         travel_id = int(manager.start_data.get('travel_id'))
         travel = await get_travel_by_id(session, travel_id)
+        if not await is_travel_exists(travel_id):
+            await c.answer('Такого путешествия не существует ⚠️')
+            await manager.done(
+                {
+                    'switch_to_window': SwitchToWindow.SelectTravel
+                }
+            )
+            return
         user_id = manager.middleware_data.get('event_chat').id
         user = await get_user_by_telegram_id(session, user_id)
         is_owner = await is_user_travel_owner_by_user(session, travel, user)
