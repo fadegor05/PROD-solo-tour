@@ -5,6 +5,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models import Location, Travel
 
 
+async def delete_location(session: AsyncSession, location: Location) -> None:
+    await session.delete(location)
+    await session.commit()
+
+
+
 async def delete_locations_by_travel(session: AsyncSession, travel: Travel) -> None:
     for location in travel.locations:
         await session.delete(location)
