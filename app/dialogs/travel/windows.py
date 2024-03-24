@@ -36,9 +36,9 @@ def travel_info_window():
 
 def travel_delete_confirm_window():
     return Window(
-        Format('Вы действительно хотите удалить путешествие?'),
-        Button(Const('Да'), 'travel_delete_confirm_button', selected.on_travel_delete_confirm),
-        Cancel(Const('Назад')),
+        Format('Вы действительно хотите удалить путешествие? 🗑️'),
+        Button(Const('✅ Да'), 'travel_delete_confirm_button', selected.on_travel_delete_confirm),
+        Cancel(Const('⬅️ Назад')),
         state=states.DeleteTravel.delete_travel
     )
 
