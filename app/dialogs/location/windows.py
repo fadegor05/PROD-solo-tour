@@ -1,9 +1,12 @@
-from aiogram_dialog import Window
+from typing import Dict
+
+from aiogram_dialog import Window, Data, DialogManager
 from aiogram_dialog.widgets.input import TextInput
 from aiogram_dialog.widgets.kbd import Back, Cancel, Button, Next
 from aiogram_dialog.widgets.text import Const, Format
 
 from app.dialogs.location import keyboards, selected, states, getters
+from app.misc.constants import SwitchToWindow
 
 
 def locations_window():
@@ -20,9 +23,19 @@ def locations_window():
 def location_info_window():
     return Window(
         Format('Локация {city}, {country} 📍\n\nВремя пребывания ⏳\n{arrive_at} - {departure_at}'),
+        Button(Const('🗑️ Удалить локацию'), 'delete_location', selected.on_delete_location),
         Back(Const('⬅️ Назад')),
         state=states.LocationMenu.select_action,
         getter=getters.get_location,
+    )
+
+
+def location_delete_confirm():
+    return Window(
+        Const('Вы действительно хотите удалить локацию? 🗑️'),
+        Button(Const('✅ Да'), 'delete_location_confirm', selected.on_delete_location_confirm),
+        Cancel(Const('⬅️ Назад')),
+        state=states.DeleteLocation.delete_location
     )
 
 
@@ -67,3 +80,10 @@ def location_departure_at_window():
         ),
         state=states.CreateLocation.departure_at
     )
+
+
+async def on_process_result(data: Data, result: Dict, manager: DialogManager):
+    if result:
+        switch_to_window = result.get('switch_to_window')
+        if switch_to_window == SwitchToWindow.SelectLocation:
+            await manager.switch_to(states.LocationMenu.select_location)

@@ -11,3 +11,7 @@ class CreateLocation(StatesGroup):
     confirm_city = State()
     arrive_at = State()
     departure_at = State()
+
+
+class DeleteLocation(StatesGroup):
+    delete_location = State()

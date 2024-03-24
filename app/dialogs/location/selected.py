@@ -6,10 +6,12 @@ from aiogram_dialog.widgets.input import TextInput
 from aiogram_dialog.widgets.kbd import Select, Button
 import geocoder
 
-from app.crud.location import create_location
-from app.crud.travel import get_travel_by_id
+from app.crud.location import create_location, get_location_by_id, delete_location
+from app.crud.travel import get_travel_by_id, is_user_travel_owner_by_user
+from app.crud.user import get_user_by_telegram_id
 from app.database import async_session
-from app.dialogs.location.states import LocationMenu, CreateLocation
+from app.dialogs.location.states import LocationMenu, CreateLocation, DeleteLocation
+from app.misc.constants import SwitchToWindow
 
 
 async def on_chosen_location(c: CallbackQuery, widget: Select, manager: DialogManager, location_id: str, **kwargs):
@@ -20,6 +22,34 @@ async def on_chosen_location(c: CallbackQuery, widget: Select, manager: DialogMa
 
 async def on_create_location(c: CallbackQuery, widget: Button, manager: DialogManager):
     await manager.start(CreateLocation.city, data={'travel_id': manager.start_data.get('travel_id')})
+
+
+async def on_delete_location(c: CallbackQuery, widget: Button, manager: DialogManager):
+    await manager.start(DeleteLocation.delete_location, data={'location_id': manager.dialog_data.get('location_id'),
+                                                              'travel_id': manager.start_data.get('travel_id')})
+
+
+async def on_delete_location_confirm(c: CallbackQuery, widget: Button, manager: DialogManager):
+    async with async_session() as session:
+        travel_id = int(manager.start_data.get('travel_id'))
+        travel = await get_travel_by_id(session, travel_id)
+        user_id = manager.middleware_data.get('event_chat').id
+        user = await get_user_by_telegram_id(session, user_id)
+        is_owner = await is_user_travel_owner_by_user(session, travel, user)
+        if not is_owner:
+            await c.answer('У вас недостаточно прав ❌')
+            await manager.done()
+            return
+        location_id = int(manager.start_data.get('location_id'))
+        location = await get_location_by_id(session, location_id)
+        name = f'{location.city}, {location.country}'
+        await delete_location(session, location)
+        await c.answer(f'Локация {name} была успешно удалена ✅')
+    await manager.done(
+        {
+            'switch_to_window': SwitchToWindow.SelectLocation
+        }
+    )
 
 
 async def on_entered_city(m: Message, widget: TextInput, manager: DialogManager, city, **kwargs):
