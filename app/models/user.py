@@ -1,5 +1,4 @@
 from typing import TYPE_CHECKING, List
-from uuid import uuid4
 
 from sqlalchemy import BigInteger
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -15,7 +14,7 @@ class User(Base):
     __tablename__ = 'user'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    uuid: Mapped[str] = mapped_column(nullable=False, default=str(uuid4()))
+    uuid: Mapped[str] = mapped_column(nullable=False)
     telegram_id: Mapped[int] = mapped_column(BigInteger(), nullable=False)
     name: Mapped[str] = mapped_column(nullable=False)
     age: Mapped[int] = mapped_column(nullable=True)

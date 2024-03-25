@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.models.user import User
@@ -22,7 +24,7 @@ async def get_user_by_telegram_id(session: AsyncSession, telegram_id: int) -> Us
 
 
 async def create_user(session: AsyncSession, telegram_id: int, name: str) -> User:
-    user = User(telegram_id=telegram_id, name=name)
+    user = User(telegram_id=telegram_id, name=name, uuid=str(uuid4()))
     session.add(user)
     await session.commit()
     await session.refresh(user)
