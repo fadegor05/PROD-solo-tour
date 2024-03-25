@@ -46,7 +46,7 @@ async def on_view_places(c: CallbackQuery, widget: Button, manager: DialogManage
         await c.answer('Такой локации не существует ⚠️')
         await manager.done()
         return
-    await manager.start(PlaceMenu.select_place, data={'location_id': location_id, 'travel_id': travel_id})
+    await manager.start(PlaceMenu.select_category, data={'location_id': location_id, 'travel_id': travel_id})
 
 
 async def on_delete_location_confirm(c: CallbackQuery, widget: Button, manager: DialogManager):
