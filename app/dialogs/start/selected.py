@@ -36,10 +36,17 @@ async def on_entered_city(m: Message, widget: TextInput, manager: DialogManager,
         await m.answer('Попробуйте еще раз ⚠️')
         return
     ctx = manager.current_context()
+    ctx.dialog_data.update(city=geo.city, country=geo.country, lon=geo.json['lng'], lat=geo.json['lat'])
+    await manager.switch_to(CreateUser.confirm_city)
+
+async def on_city_confirm(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
+    ctx = manager.current_context()
     user_id = manager.middleware_data.get('event_chat').id
     async with async_session() as session:
-        await update_user_detailed_by_telegram_id(session, user_id, ctx.dialog_data.get('age'), geo.city, geo.country,
-                                                  ctx.dialog_data.get('bio'), geo.json['lng'], geo.json['lat'])
+        await update_user_detailed_by_telegram_id(session, user_id, ctx.dialog_data.get('age'),
+                                                  ctx.dialog_data.get('city'), ctx.dialog_data.get('country'),
+                                                  ctx.dialog_data.get('bio'), ctx.dialog_data.get('lon'),
+                                                  ctx.dialog_data.get('lat'))
     await manager.done()
     await manager.start(StartMenu.select_menu)
 

@@ -12,5 +12,6 @@ def menu_dialogs():
             windows.start_age_window(),
             windows.start_bio_window(),
             windows.start_city_window(),
+            windows.start_city_confirm_window(),
         ),
     ]

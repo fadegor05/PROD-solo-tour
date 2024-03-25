@@ -9,3 +9,4 @@ class CreateUser(StatesGroup):
     age = State()
     bio = State()
     city = State()
+    confirm_city = State()

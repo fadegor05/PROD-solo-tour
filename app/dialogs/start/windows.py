@@ -1,9 +1,9 @@
 from aiogram_dialog import Window
 from aiogram_dialog.widgets.input import TextInput
-from aiogram_dialog.widgets.kbd import Button
-from aiogram_dialog.widgets.text import Const
+from aiogram_dialog.widgets.kbd import Button, Next, Back
+from aiogram_dialog.widgets.text import Const, Format
 
-from app.dialogs.start import states, selected
+from app.dialogs.start import states, selected, getters
 
 
 def start_window():
@@ -45,4 +45,14 @@ def start_city_window():
             on_success=selected.on_entered_city
         ),
         state=states.CreateUser.city
+    )
+
+
+def start_city_confirm_window():
+    return Window(
+        Format('{city}, {country} - Верно? 🌎'),
+        Button(Const('✅ Да'), 'start_city_confirm', selected.on_city_confirm),
+        Back(Const('❌ Нет')),
+        getter=getters.get_city_confirm,
+        state=states.CreateUser.confirm_city
     )
