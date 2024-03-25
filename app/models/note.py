@@ -14,7 +14,6 @@ class Note(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
     text: Mapped[str]
-    images: Mapped[List['Image']] = relationship(back_populates='note', lazy='selectin')
     is_public: Mapped[bool] = mapped_column(default=True)
     travel: Mapped['Travel'] = relationship(back_populates='notes', lazy='selectin')
     travel_id: Mapped[int] = mapped_column(ForeignKey('travel.id'))
