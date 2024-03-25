@@ -7,7 +7,7 @@ from aiogram_dialog.widgets.text import Format
 def paginated_categories(on_click):
     return ScrollingGroup(
         Select(
-            Format('{item.name}'),
+            Format('📢 {item.name}'),
             id='s_scroll_categories',
             item_id_getter=operator.attrgetter('slug'),
             items='categories',
@@ -21,7 +21,7 @@ def paginated_categories(on_click):
 def paginated_places(on_click):
     return ScrollingGroup(
         Select(
-            Format('{item.description}'),
+            Format('🧭 {item.title}'),
             id='s_scroll_places',
             item_id_getter=operator.attrgetter('id'),
             items='places',
