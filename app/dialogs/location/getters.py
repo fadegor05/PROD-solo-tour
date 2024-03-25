@@ -21,7 +21,7 @@ async def get_locations(dialog_manager: DialogManager, **kwargs):
         points = [(user.lon, user.lat)]
         for location in locations:
             points.append((location.lon, location.lat))
-        points.append((user.lon, user.lat))
+        if len(points) == 1: points.append((user.lon, user.lat))
         url = json.dumps({"points": points}).replace(' ', '')
         image = MediaAttachment(ContentType.PHOTO, url=f'memory://{url}')
         return {
