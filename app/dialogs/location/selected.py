@@ -11,6 +11,7 @@ from app.crud.travel import get_travel_by_id, is_user_travel_owner_by_user
 from app.crud.user import get_user_by_telegram_id
 from app.database import async_session
 from app.dialogs.location.states import LocationMenu, CreateLocation, DeleteLocation
+from app.dialogs.places.states import PlaceMenu
 from app.misc.constants import SwitchToWindow
 from app.misc.exists import is_location_exists
 
@@ -36,6 +37,16 @@ async def on_delete_location(c: CallbackQuery, widget: Button, manager: DialogMa
         await manager.done()
         return
     await manager.start(DeleteLocation.delete_location, data={'location_id': location_id, 'travel_id': travel_id})
+
+
+async def on_view_places(c: CallbackQuery, widget: Button, manager: DialogManager):
+    location_id = manager.dialog_data.get('location_id')
+    travel_id = manager.start_data.get('travel_id')
+    if not await is_location_exists(location_id):
+        await c.answer('Такой локации не существует ⚠️')
+        await manager.done()
+        return
+    await manager.start(PlaceMenu.select_place, data={'location_id': location_id, 'travel_id': travel_id})
 
 
 async def on_delete_location_confirm(c: CallbackQuery, widget: Button, manager: DialogManager):
