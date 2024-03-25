@@ -46,9 +46,9 @@ async def get_location(dialog_manager: DialogManager, **kwargs):
             'country': location.country,
             'arrive_at': location.arrive_at.strftime('%d/%m/%Y'),
             'departure_at': location.departure_at.strftime('%d/%m/%Y'),
-            'weather_dates_type': 'Погода в поездке 💼' if weather.get('is_dates') else 'Погода сейчас 📆',
-            'temperature': weather.get('temperature'),
-            'weather': weather.get('weather')
+            'weather_dates_type': 'Погода в поездке 💼' if weather.is_dates else 'Погода сейчас 📆',
+            'temperature': weather.temperature,
+            'weather': weather.weather
         }
 
 
