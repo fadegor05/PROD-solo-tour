@@ -45,6 +45,11 @@ async def update_user_detailed_by_telegram_id(session: AsyncSession, telegram_id
     return user
 
 
+async def is_user_detailed(session: AsyncSession, user: User) -> bool:
+    if not user.age or not user.city or not user.country or not user.bio or not user.lon or not user.lat:
+        return False
+    return True
+
 async def get_user_with_similar_age(session: AsyncSession, user: User) -> List[User]:
     stmt = select(User).where(and_(User.age >= user.age - 5, User.age <= user.age + 5, User.id != user.id))
     result = await session.scalars(stmt)
