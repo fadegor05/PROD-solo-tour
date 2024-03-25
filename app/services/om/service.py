@@ -2,7 +2,7 @@ import datetime
 from typing import Tuple
 
 from app.services.om.api import request_om_api
-from app.services.om.schema import Weather
+from app.services.om.schemas import Weather
 
 
 async def weather_code_handler(code: int) -> str:

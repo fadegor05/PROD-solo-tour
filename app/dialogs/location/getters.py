@@ -7,7 +7,7 @@ from app.crud.travel import get_travel_by_id
 from app.crud.user import get_user_by_telegram_id
 from app.database import async_session
 from app.misc.exists import is_location_exists
-from app.services.om.schema import Weather
+from app.services.om.schemas import Weather
 from app.services.om.service import get_location_weather
 from app.services.ors.service import get_rendered_map
 import json
