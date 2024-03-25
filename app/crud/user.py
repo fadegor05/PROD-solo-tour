@@ -1,7 +1,8 @@
+from typing import List
 from uuid import uuid4
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, and_
 from app.models.user import User
 
 
@@ -42,3 +43,10 @@ async def update_user_detailed_by_telegram_id(session: AsyncSession, telegram_id
     user.lat = lat
     await session.commit()
     return user
+
+
+async def get_user_with_similar_age(session: AsyncSession, user: User) -> List[User]:
+    stmt = select(User).where(and_(User.age >= user.age - 5, User.age <= user.age + 5, User.id != user.id))
+    result = await session.scalars(stmt)
+    users = result.all()
+    return users

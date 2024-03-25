@@ -11,6 +11,7 @@ def start_window():
         Const('Добро Пожаловать в Travel Agent 😎\n\nЗдесь вы можете начать свое комфортное путешествиe в пару кликов и без каких-либо проблем 💼\n\nВыберите тот пункт меню, который хотите'),
         Button(Const('✈️ Мои путешествия'), 'start_travels', selected.on_start_travels),
         Button(Const('✉️ Приглашения'), 'start_invitations', selected.on_start_invitations),
+        Button(Const('👥 Найти попутчика'), 'start_people', selected.on_start_people),
         state=states.StartMenu.select_menu,
     )
 

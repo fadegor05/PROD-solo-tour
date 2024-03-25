@@ -1,4 +1,4 @@
-from . import travel, start, note, location, member, invitation, places
+from . import travel, start, note, location, member, invitation, places, people
 
 
 def get_dialogs():
@@ -10,4 +10,5 @@ def get_dialogs():
         *member.menu_dialogs(),
         *invitation.menu_dialogs(),
         *places.menu_dialogs(),
+        *people.menu_dialogs(),
     ]
