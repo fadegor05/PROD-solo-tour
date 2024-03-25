@@ -7,6 +7,8 @@ from app.crud.travel import get_travel_by_id
 from app.crud.user import get_user_by_telegram_id
 from app.database import async_session
 from app.misc.exists import is_location_exists
+from app.services.om.schema import Weather
+from app.services.om.service import get_location_weather
 from app.services.ors.service import get_rendered_map
 import json
 
@@ -37,12 +39,16 @@ async def get_location(dialog_manager: DialogManager, **kwargs):
         if not await is_location_exists(location_id):
             await dialog_manager.done()
             return
-
+        weather: Weather = await get_location_weather((location.lon, location.lat), location.arrive_at,
+                                             location.departure_at)
         return {
             'city': location.city,
             'country': location.country,
             'arrive_at': location.arrive_at.strftime('%d/%m/%Y'),
-            'departure_at': location.departure_at.strftime('%d/%m/%Y')
+            'departure_at': location.departure_at.strftime('%d/%m/%Y'),
+            'weather_dates_type': 'Погода в поездке 💼' if weather.get('is_dates') else 'Погода сейчас 📆',
+            'temperature': weather.get('temperature'),
+            'weather': weather.get('weather')
         }
 
 

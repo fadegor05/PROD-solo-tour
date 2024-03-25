@@ -24,7 +24,7 @@ def locations_window():
 
 def location_info_window():
     return Window(
-        Format('Локация {city}, {country} 📍\n\nВремя пребывания ⏳\n{arrive_at} - {departure_at}'),
+        Format('Локация {city}, {country} 📍\n\n{weather_dates_type}\n{weather}\n🌡 {temperature} °C\n\nВремя пребывания ⏳\n{arrive_at} - {departure_at}'),
         Button(Const('🗑️ Удалить локацию'), 'delete_location', selected.on_delete_location),
         Back(Const('⬅️ Назад')),
         state=states.LocationMenu.select_action,
