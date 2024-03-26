@@ -1,4 +1,5 @@
 import geocoder
+from OSMPythonTools.nominatim import Nominatim
 from aiogram.types import Message, CallbackQuery
 from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.input import TextInput
@@ -31,13 +32,20 @@ async def on_entered_bio(m: Message, widget: TextInput, manager: DialogManager, 
 
 async def on_entered_city(m: Message, widget: TextInput, manager: DialogManager, city, **kwargs):
     city = str(city)
-    geo = geocoder.osm(city)
-    if not geo.country or not geo.city:
+    try:
+        nominatim = Nominatim()
+        geo = nominatim.query(city).toJSON()[0]
+        country = geo['display_name'].split(' ')[-1]
+        city = geo['name']
+        lon = float(geo['lon'])
+        lat = float(geo['lat'])
+    except:
         await m.answer('Попробуйте еще раз ⚠️')
         return
     ctx = manager.current_context()
-    ctx.dialog_data.update(city=geo.city, country=geo.country, lon=geo.json['lng'], lat=geo.json['lat'])
+    ctx.dialog_data.update(city=city, country=country, lon=lon, lat=lat)
     await manager.switch_to(CreateUser.confirm_city)
+
 
 async def on_city_confirm(c: CallbackQuery, widget: Button, manager: DialogManager, **kwargs):
     ctx = manager.current_context()

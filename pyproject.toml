@@ -18,6 +18,8 @@ pillow = "^10.2.0"
 requests = "^2.31.0"
 staticmap = "^0.5.7"
 polyline = "^2.0.2"
+osmapi = "^4.1.0"
+osmpythontools = "^0.3.5"
 
 
 [build-system]
